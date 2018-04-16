@@ -1,0 +1,51 @@
+#include<stdio.h>
+//structure of stoing process details.
+struct process
+{
+int burst,wait,no,arrival;
+};
+
+int main()
+{
+int n,i,j,totalwait=0,totalturn=0;
+printf("\nEnter The No Of Process :");
+scanf("%d",&n);
+struct process p[20];
+//function for taking the input from the user.
+for(i=0;i<n;i++)
+  {
+  printf("Enter The Burst Time For Process %d:",i+1);
+  scanf("%d",&p[i].burst);
+  printf("Enter The arrival Time For Process %d :",i+1);
+  scanf("%d",&p[i].arrival);
+  p[i].no=i+1;
+  }
+  
+int temp;
+for(i=0;i<n;i++)
+  for(j=0;j<n-i-1;j++)
+    if(p[j].burst>p[j+1].burst)
+      {
+      	//swapping the two process burst time	
+		temp=p[j].burst;
+      	p[j].burst=p[j+1].burst;
+      	p[j+1].burst=temp;
+      }
+
+printf("\nProcess \t arrival time burst time Waiting Time TurnAround Time ");
+for(i=0;i<n;i++)
+  {
+  printf("\nProcess # %-12d%-15d%-15d%-15d%-15d",p[i].no,p[i].arrival,p[i].burst,p[i].wait,p[i].wait+p[i].burst);
+  p[i+1].wait=p[i].wait+p[i].burst;
+  totalwait=totalwait+p[i].wait;
+  totalturn=totalturn+p[i].wait+p[i].burst;
+  }
+  //calculate average waiting time and turnaround time.
+printf("\n\nAverage\n---------");
+printf("\nWaiting Time : %f ",totalwait/(float)n);
+printf("\nTurnAround Time : %f \n\n",totalturn/(float)n);
+return 0;
+
+}
+
+
